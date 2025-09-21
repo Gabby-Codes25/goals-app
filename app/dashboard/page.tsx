@@ -1,8 +1,6 @@
-'use client'
 
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { auth } from '@clerk/nextjs/server'
 import { createSupabaseClient } from '@/libs/supabase-client'
 
 interface Goal {
@@ -16,16 +14,10 @@ const Dashboard = () => {
     const [ goals, setGoals ] = useState<Goal[]>([])
 
     const fetchGoals = async () => {
-        const { userId } = await auth();
-
-        if (!userId) {
-            return Response.json({ message: "Unauthorized" }, { status: 401 });
-        }
 
         const { data, error} = await supabase
         .from("goals")
         .select("*")
-        .eq("user_id", userId);
         
         if (error) {
             console.error('Error fetching goals:', error.message);

@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { useState } from 'react'
-import { auth } from '@clerk/nextjs/server'
 import { createSupabaseClient } from '@/libs/supabase-client'
 
 const form = () => {
@@ -13,15 +12,9 @@ const form = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault()
 
-    const { userId } = await auth();
-    
-      if (!userId) {
-          return Response.json({ message: "Unauthorized" }, { status: 401 });
-      }
-
     const {error } = await supabase
       .from("goals")
-      .insert({newGoal, user_id: userId})
+      .insert(newGoal)
       .select();
 
       if (error) {
