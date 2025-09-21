@@ -30,7 +30,7 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-        <header className="flex justify-between py-6 px-8 bg-[#e0dfdf] text-black font-bold border-b border-gray-200 mb-10">
+        <header className="flex justify-between py-9 px-8 bg-[#e0dfdf] text-black font-bold">
           <h1 className="font-bold text-2xl text-gray-800">Goal-App</h1>
           <SignedIn>
             <UserButton showName />
