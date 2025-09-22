@@ -1,4 +1,4 @@
-//app/(auth)/sign-in/[[...sign-in]]/page.jsx
+
 import { SignIn } from '@clerk/nextjs'
 
 export default function SignInPage() {
@@ -10,7 +10,7 @@ export default function SignInPage() {
             path="/sign-in"
             routing="path"
             signUpUrl="/sign-up"
-            forceRedirectUrl="/"
+            forceRedirectUrl="/dashboard"
           />
         </div>
       </div>

@@ -1,4 +1,3 @@
-//app/(auth)/sign-up/[[...sign-up]]/page.jsx
 import { SignUp } from '@clerk/nextjs'
 
 export default function SignUpPage() {

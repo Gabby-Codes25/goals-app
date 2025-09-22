@@ -1,48 +1,19 @@
-'use client'
-
 import React from 'react'
-import { useState, useEffect } from 'react'
-import { createSupabaseClient } from '@/libs/supabase-client'
+import { currentUser } from '@clerk/nextjs/server'
+import GoalsList from '../components/goalsList'
+import Form from '../components/form'
 
-interface Goal {
-    id: string;
-    title: string;
-    description: string;
-}
+const Dashboard = async() => { 
+    const user = await currentUser()
 
-const Dashboard = () => {
-    const supabase = createSupabaseClient()
-    const [ goals, setGoals ] = useState<Goal[]>([])
-
-    const fetchGoals = async () => {
-
-        const { data, error} = await supabase
-        .from("goals")
-        .select("*")
-        
-        if (error) {
-            console.error('Error fetching goals:', error.message);
-            return;
-        }
-
-        setGoals(data)
+    if (!user) {
+        return <div>Loading...</div>;
     }
-
-    useEffect(() => {
-        fetchGoals()
-    }, [])
-
-    console.log(goals);
 
   return (
     <div>
-        <h1>Dashboard</h1>
-        {goals.map((goal, key) => (
-                <div key={key}>
-                    <h2>{goal.title}</h2>
-                    <p>{goal.description}</p>
-                </div>
-            ))}
+        <Form userId={user.id} />
+        <GoalsList userId={user.id} />
     </div>
   )
 }

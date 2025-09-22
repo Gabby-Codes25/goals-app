@@ -4,7 +4,7 @@ import React from 'react'
 import { useState } from 'react'
 import { createSupabaseClient } from '@/libs/supabase-client'
 
-const form = () => {
+const form = ({ userId }: { userId: string}) => {
   const supabase = createSupabaseClient()
   const [ newGoal, setNewGoal ] = useState({title: '', description: ''})
 
@@ -14,7 +14,11 @@ const form = () => {
 
     const {error } = await supabase
       .from("goals")
-      .insert(newGoal)
+      .insert({
+        title: newGoal.title,
+        description: newGoal.description,
+        user_id: userId,
+      })
       .select();
 
       if (error) {
