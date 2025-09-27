@@ -30,25 +30,31 @@ const form = ({ userId }: { userId: string}) => {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input
-         type="text"
-         onChange={(e) => setNewGoal((prev) => ({...prev, title: e.target.value}))}
-         className=''
-        />
-        <textarea
-         placeholder='Description'
-         onChange={(e) => setNewGoal((prev) => ({...prev, description: e.target.value}))}
-         className=''
-        />
-        <button
-         type="submit"
-         className='cursor-pointer'
-         >
-          Add Goal
-        </button>
-      </form>
+    <div className='w-full py-5'>
+      <div className='justify-center items-center px-8 mx-auto max-w-2xl'>
+        <h1 className='font-bold text-2xl text-center justify-center py-2'>Add Goal</h1>
+        <form onSubmit={handleSubmit} className='bg-gray-200 text-black grid p-4 rounded-xl mb-4 gap-4'>
+          <input
+          type="text"
+          value={newGoal.title}
+          placeholder='Enter your title'
+          onChange={(e) => setNewGoal((prev) => ({...prev, title: e.target.value}))}
+          className='rounded-xl border border-gray-300 p-2 mr-2'
+          />
+          <textarea
+          value={newGoal.description}
+          placeholder='Enter your description'
+          onChange={(e) => setNewGoal((prev) => ({...prev, description: e.target.value}))}
+          className='rounded-xl border border-gray-300 p-2 mr-2'
+          />
+          <button
+          type="submit"
+          className='bg-blue-200 block rounded-xl cursor-pointer'
+          >
+            Add Goal
+          </button>
+        </form>
+      </div>
     </div>
   )
 }
