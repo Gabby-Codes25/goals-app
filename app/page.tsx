@@ -9,7 +9,9 @@ const Home = async () => {
 
   if (!isAuthenticated) {
     console.log('user not found')
-    return (<div>Please sign in to view your dashboard.</div>)
+    return (
+    <div className='w-full text-3xl text-center justify-center font-bold mt-40'>Please sign in to view your dashboard...</div>
+  )
   }
 
   return (

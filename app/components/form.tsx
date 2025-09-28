@@ -40,16 +40,18 @@ const form = ({ userId }: { userId: string}) => {
           placeholder='Enter your title'
           onChange={(e) => setNewGoal((prev) => ({...prev, title: e.target.value}))}
           className='rounded-xl border border-gray-300 p-2 mr-2'
+          required
           />
           <textarea
           value={newGoal.description}
           placeholder='Enter your description'
           onChange={(e) => setNewGoal((prev) => ({...prev, description: e.target.value}))}
           className='rounded-xl border border-gray-300 p-2 mr-2'
+          required
           />
           <button
           type="submit"
-          className='bg-blue-200 block rounded-xl cursor-pointer'
+          className='bg-blue-200 shadow-xl block rounded-xl cursor-pointer'
           >
             Add Goal
           </button>

@@ -30,9 +30,9 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-        <header className="bg-[#b8b1b1] flex justify-between text-black font-bold px-8 py-4">
+        <header className="bg-white/20 backdrop-blur-lg backdrop-saturate-200 border-white/30 rounded-2xl shadow-xl relative group flex justify-between text-white font-bold p-6 mb-6">
           <div>
-            <h1><Link href="/">Goals-App</Link></h1>
+            <h1 className="text-2xl text-center"><Link href="/">Goals-App</Link></h1>
           </div>
           <div className="space-x-4">
             <SignedOut>

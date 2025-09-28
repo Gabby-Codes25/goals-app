@@ -3,6 +3,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { createSupabaseClient } from '@/libs/supabase-client'
+import Edit from './edit'
 
 
 interface Goal {
@@ -16,6 +17,7 @@ const GoalsList = ({ userId }: { userId: string }) => {
     
     const [goals, setGoals] = useState<Goal[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [editingGoals, setEditingGoals] = useState<{title: string; description: string; id?: string} | null>(null);
 
     const fetchGoals = async () => {
         setLoading(true);
@@ -39,16 +41,19 @@ const GoalsList = ({ userId }: { userId: string }) => {
         }
     };
 
-    // const updateGoal = async (id: string, updatedGoal: Partial<Goal>) => {
-    //     const { error } = await supabase
-    //         .from('goals')
-    //         .update(updatedGoal)
-    //         .eq('id', id);
-    //     if (error) {
-    //         console.error('Error updating goal:', error.message);
-    //     }
-    //     fetchGoals();
-    // };
+    const updateGoal = async (id: string, title: string, description: string) => {
+        const { error } = await supabase
+            .from('goals')
+            .update({ 
+                title: title, 
+                description: description
+            })
+            .eq('id', id);
+        if (error) {
+            console.error('Error updating goal:', error.message);
+        }
+        await fetchGoals();
+    };
 
     const deleteGoal = async (id: string) => {
         const { error } = await supabase
@@ -109,22 +114,46 @@ const GoalsList = ({ userId }: { userId: string }) => {
     <div>
         <div className='w-full justify-center items-center px-8 mx-auto max-w-2xl'>
             <h1 className='text-2xl font-bold justify-center text-center'>Goals</h1>
-            {loading ? (
-                <p>Loading goals...</p>
+            {editingGoals ? (
+                <Edit
+                 editGoal={
+                    {
+                        title: editingGoals.title, 
+                        description: editingGoals.description
+                    }
+                 } 
+                 goalId={editingGoals.id}
+                 updateGoal={updateGoal}
+                 onCancel={() => setEditingGoals(null)} 
+                 onUpdate={() => {
+                    setEditingGoals(null);
+                    fetchGoals();
+                    }}
+                />
+            ) : loading ?(
+                <div className='flex justify-center items-center py-8'>
+                    <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500'></div>
+                    <span className='ml-2 text-gray-600'>Loading...</span>
+                </div>
             ) : (
                 goals.map((goal) => (
                 <div key={goal.id}
-                className='bg-gray-200 text-black py-4 px-8 rounded-xl m-4'
+                className='bg-gray-200 text-black py-4 px-8 rounded-xl m-8'
                 >
                     <h2 className='font-bold text-2xl'>{goal.title}</h2>
                     <p>{goal.description}</p>
                     <div className='flex justify-between px-2 py-2'>
                         <button 
-                        // onClick={() => updateGoal(goal.id, { title: goal.title + ' (Updated)' })}
-                        className='bg-green-400 rounded-xl px-6 py-2 mt-2 ml-2 cursor-pointer'>Edit</button>
+                        onClick={() => 
+                            setEditingGoals({
+                                id: goal.id,
+                                title: goal.title, 
+                                description: goal.description 
+                            })}
+                        className='bg-green-400 shadow-xl rounded-xl px-6 py-2 mt-2 ml-2 cursor-pointer'>Edit</button>
                         <button
                         onClick={() => deleteGoal(goal.id)}
-                         className='bg-red-400 rounded-xl px-6 py-2 mt-2 cursor-pointer'>Delete</button>
+                         className='bg-red-400 shadow-xl rounded-xl px-6 py-2 mt-2 cursor-pointer'>Delete</button>
                     </div>
                 </div>
             ))
